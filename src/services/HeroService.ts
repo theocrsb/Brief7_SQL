@@ -12,7 +12,7 @@ export class HeroService {
 
   getOneHeroById(id: number): Promise<Hero> {
     console.log(id);
-    return AppDataSource.query(`SELECT name FROM hero where id=${id}`);
+    return AppDataSource.query(`SELECT * FROM hero where id=${id}`);
   }
 
   createNewHero(newHero: Hero): Promise<any> {

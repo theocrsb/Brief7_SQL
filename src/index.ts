@@ -1,31 +1,32 @@
-import * as express from 'express';
-import * as dotenv from 'dotenv';
-import { HeroController } from './controllers/HeroController';
-import * as path from 'path';
-import heroRouter from './routes/HeroRoute';
-import { AppDataSource } from './data-source';
-import bodyParser = require('body-parser');
+import * as express from "express";
+import * as dotenv from "dotenv";
+import { HeroController } from "./controllers/HeroController";
+import * as path from "path";
+import heroRouter from "./routes/HeroRoute";
+import { AppDataSource } from "./data-source";
+import bodyParser = require("body-parser");
+import * as cors from "cors";
 
 // Init environment variables (see .env.local file if it doesn't exist go to README.md file)
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: ".env.local" });
 
 AppDataSource.initialize()
   .then(async () => {
     // Express server creation
     const app = express();
     const port = process.env.PORT || 8080;
-
+    app.use(cors());
     app.use(bodyParser.json());
     // Set a static folder for assets
     app.use(
-      '/assets',
-      express.static(path.join(__dirname, '../public/assets'))
+      "/assets",
+      express.static(path.join(__dirname, "../public/assets"))
     );
 
     /************************************************
      * Data's routes
      */
-    app.use('/api/heros', heroRouter);
+    app.use("/api/heros", heroRouter);
 
     // Bind express server on port 3004
     app.listen(port, () => {
